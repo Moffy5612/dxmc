@@ -1,4 +1,4 @@
-import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from "@mui/material";
 import { createContext, useContext, useState, useEffect } from "react";
 import { AppContext, AppPage } from "./types";
 import { Menu } from "@mui/icons-material";
@@ -19,10 +19,11 @@ const App = () => {
   const [isMobile, setMobile] = useState(false);
   const [pageId, setPageId] = useState(0)
   const [isAuthMode, setAuthMode] = useState(false)
-  const [open, setOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [filterText, setFilterText] = useState("")
 
   const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
+    setDrawerOpen(newOpen);
   };
 
   useEffect(()=>{
@@ -54,16 +55,28 @@ const App = () => {
   const DrawerList = () => {
     const listItem:JSX.Element[] = []
     for(const page of Pages){
-      listItem.push((
-        <ListItem key={page.menu.label} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {page.menu.icon}
-            </ListItemIcon>
-            <ListItemText primary={page.menu.label} />
-          </ListItemButton>
-        </ListItem>
-      ))
+      if(filterText === "" || page.menu.label.toLowerCase().includes(filterText.toLowerCase())){
+        listItem.push((
+          <ListItem key={page.menu.label} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {page.menu.icon}
+              </ListItemIcon>
+              <ListItemText primary={page.menu.label} />
+            </ListItemButton>
+          </ListItem>
+        ))
+      }
+    }
+
+    if(listItem.length < 1 && filterText !== ""){
+      listItem.push(
+        <ListItem key={"404"} disablePadding>
+            <ListItemButton>
+              <ListItemText><i>No pages were found.</i></ListItemText>
+            </ListItemButton>
+          </ListItem>
+      )
     }
     return(<List>{listItem}</List>)
   }
@@ -89,7 +102,7 @@ const App = () => {
                 color="inherit"
                 aria-label="menu"
                 sx={{ mr: 2 }}
-                onClick={()=>setOpen(true)}
+                onClick={()=>setDrawerOpen(true)}
               >
                 <Menu />
               </IconButton>
@@ -101,9 +114,10 @@ const App = () => {
             </Toolbar>
           </AppBar>
           <nav>
-            <Drawer open={open} onClose={toggleDrawer(false)}>
+            <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
               <span className="drawer">
                 <h3>DXMC</h3>
+                <TextField label="filter" variant="filled" size="small" className="filter" value={filterText} onChange={(evt)=>setFilterText(evt.target.value)}></TextField>
                 {DrawerList()}
               </span>
             </Drawer>

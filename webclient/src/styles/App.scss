@@ -16,6 +16,17 @@
     color: var(--color);
     height: 100%;
   }
+
+  .filter{
+    background-color: var(--bg-tab-content);
+    color: var(--color);
+    label{
+      color: var(--color);
+    }
+    input{
+      color: var(--color);
+    }
+  }
   
   .page{    
     width: 95%;
