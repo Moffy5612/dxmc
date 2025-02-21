@@ -1,6 +1,6 @@
 import { Button, TextField, Typography } from "@mui/material"
 import { Dispatch, SetStateAction, useState } from "react"
-import { AUTH_PASSWORD } from "../api/pwd"
+import { AUTH_PASSWORD } from "../../../public/pwd"
 import { Check } from "@mui/icons-material"
 
 type AuthModeState = {
