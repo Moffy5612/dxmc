@@ -5,8 +5,8 @@ local relayComputerId = 1
 
 while true do
     local d = {
-        networkInfo=fluxController.getNetworkInfo()
-        connections=fluxController.getConnections()
+        networkInfo=fluxController.getNetworkInfo(),
+        connections=fluxController.getConnections(),
         statistics=fluxController.getStatistics()
     }
 
