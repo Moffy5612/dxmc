@@ -3,6 +3,7 @@ local data = require("data")
 rednet.open("top")
 
 multishell.launch({data = data}, "/monitor.lua")
+multishell.launch({},"/system.lua")
 
 while true do
     id, msg = rednet.receive("master")
