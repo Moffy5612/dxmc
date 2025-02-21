@@ -1,7 +1,7 @@
 local fluxController = peripheral.wrap("bottom")
 
 local duration = 1
-local relayComputerId = 0
+local relayComputerId = 1
 
 while true do
     local d = {
