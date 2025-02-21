@@ -1,4 +1,4 @@
-local data = require("data")
+local data = require("dataManager")
 
 rednet.open("top")
 

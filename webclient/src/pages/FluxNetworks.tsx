@@ -1,5 +1,5 @@
 import { Bolt, ExpandMore } from "@mui/icons-material"
-import { AppPage } from "../types"
+import { AppPage, ReactState } from "../types"
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Modal, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { usePageContext } from "../App"
@@ -8,16 +8,17 @@ import SortableTable from "../components/SortableTable"
 import {Line} from 'react-chartjs-2'
 import { CategoryScale, Chart, ChartData, LinearScale, LineElement, Point, PointElement } from "chart.js"
 
-const pageId = 1
+const pageId = 2
 
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
     opened: boolean;
+    data: any
   }
 
-interface ChargeGraphProps {
+interface ChangeGraphProps {
     children?: React.ReactNode;
     data: ChartData<"line", (number | Point | null)[], unknown>
 }
@@ -35,7 +36,7 @@ const getGraphData = (data: number[]) => {
     }
 }
 
-const ChargeGraph = (props: ChargeGraphProps) => {
+const ChangeGraph = (props: ChangeGraphProps) => {
     return(
         <div>
             <Line
@@ -55,11 +56,11 @@ const TabPanel = (props: TabPanelProps) => {
     const [isModalOpen, setModalOpen] = useState(false)
 
     const deviceHeaders = [
-        {id:0, disablePadding:true, label:"Device Name", numeric:false},
-        {id:1, disablePadding:true, label:"Device Type", numeric:false},
-        {id:2, disablePadding:true, label:"x", numeric:false},
-        {id:3, disablePadding:true, label:"y", numeric:false},
-        {id:4, disablePadding:true, label:"z", numeric:false},
+        {id:0, label:"Device Name", key:"name"},
+        {id:1, label:"Device Type", key:"type"},
+        {id:2, label:"x", key:"x"},
+        {id:3, label:"y", key:"y"},
+        {id:4,label:"z", key:"z"},
     ]
 
     return (
@@ -88,9 +89,9 @@ const TabPanel = (props: TabPanelProps) => {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell component="th" scope="row"></TableCell>
-                                    <TableCell align="right"></TableCell>
-                                    <TableCell align="right"></TableCell>
+                                    <TableCell component="th" scope="row">{props.data.networkInfo.Name}</TableCell>
+                                    <TableCell align="right">{props.data.networkInfo.securityLevel}</TableCell>
+                                    <TableCell align="right">{props.data.networkInfo.owner}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -102,7 +103,14 @@ const TabPanel = (props: TabPanelProps) => {
                     <h2>Devices</h2>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <SortableTable heads={deviceHeaders} rows={[]}/>
+                    <SortableTable heads={deviceHeaders} rows={props.data.connections.map((connection: any, i: number)=>({
+                        id: i,
+                        name: connection.name, 
+                        type:connection.type,
+                        x:connection.pos.x,
+                        y:connection.pos.y,
+                        z:connection.pos.z
+                        }))}/>
                 </AccordionDetails>
             </Accordion>
             <Accordion defaultExpanded={opened}>
@@ -114,22 +122,22 @@ const TabPanel = (props: TabPanelProps) => {
                         <tbody>
                             <tr>
                                 <td><Typography>Total Energy:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.totalEnergy}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Total Buffer:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.totalBuffer}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Energy Input:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.energyInput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Energy Output:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.energyOutput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                         </tbody>
@@ -144,10 +152,14 @@ const TabPanel = (props: TabPanelProps) => {
                 <AccordionDetails>
                     <SortableTable heads={[{
                         id:0,
-                        disablePadding: false,
                         label: "Member Name",
-                        numeric: false
-                    }]} rows={[]}/>
+                        key: "name"
+                    }]} rows={props.data.members.map((member:any, i: number)=>{
+                        return {
+                            id: i,
+                            name: member
+                        }
+                    })}/>
                 </AccordionDetails>
             </Accordion>
             <Modal open={isModalOpen} onClose={()=>setModalOpen(false)}>
@@ -157,49 +169,49 @@ const TabPanel = (props: TabPanelProps) => {
                         <tbody>
                             <tr>
                                 <td><Typography>Total Energy:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.totalEnergy}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Total Buffer:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.totalBuffer}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Energy Input:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.energyInput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                             <tr style={{marginBottom: 20}}>
                                 <td><Typography>Energy Output:</Typography></td>
-                                <td><Typography></Typography></td>
+                                <td><Typography>{props.data.statistics.energyOutput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Storages:</Typography></td>
-                                <td><Typography>x</Typography></td>
+                                <td><Typography>x{props.data.statistics.fluxStorageCount}</Typography></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Controllers:</Typography></td>
-                                <td><Typography>x</Typography></td>
+                                <td><Typography>x{props.data.statistics.fluxControllerCount}</Typography></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Plugs:</Typography></td>
-                                <td><Typography>x</Typography></td>
+                                <td><Typography>x{props.data.statistics.fluxPlugCount}</Typography></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Points:</Typography></td>
-                                <td><Typography>x</Typography></td>
+                                <td><Typography>x{props.data.statistics.fluxPoint}</Typography></td>
                                 <td></td>
                             </tr>
                         </tbody>
                     </table>
                     <br/>
-                    <Typography>Energy Charge:</Typography>
-                    <ChargeGraph data={getGraphData([0,0,0,0,0,0])}/>
+                    <Typography>Energy Change:</Typography>
+                    <ChangeGraph data={getGraphData(props.data.statistics.energyChange)}/>
                 </Box>
             </Modal>
           </Box>
@@ -215,9 +227,37 @@ const TabPanel = (props: TabPanelProps) => {
     };
   }
 
+let applyEffect = undefined
+
 const FluxNetworksPage = () => {
 
     const pageContext = usePageContext()
+
+    const[socket, setSocket]:ReactState<WebSocket | undefined> = useState()
+    const[dataList, setDataList]:ReactState<any[]> = useState([] as any[])
+
+    useEffect(()=>{
+        applyEffect = (ws: WebSocket, data: any) => {
+            if(!socket){
+                setSocket(ws)
+            }
+
+            let addFlg = true
+            const dataListCopy = JSON.parse(JSON.stringify(dataList))
+            for(let i = 0; i < dataListCopy.length; i++){
+                if(dataListCopy[i].networkInfo.name === data.networkInfo.name){
+                    dataListCopy[i] = data
+                    addFlg = false
+                    break
+                }
+            }
+
+            if(addFlg){
+                dataListCopy.push(data)
+            }
+            setDataList(dataListCopy)
+        }
+    },[])
 
     const [tabValue, setTabValue] = useState(0);
 
@@ -236,10 +276,18 @@ const FluxNetworksPage = () => {
             </header>
             <Box sx={{ flexGrow: 1, display: pageContext?.isMobile ? 'block':'flex'}}>
                 <Tabs orientation={pageContext?.isMobile ? "horizontal":"vertical"} value={tabValue} onChange={handleTabChange}>
-                    <Tab label="Network 0" {...a11yProps(0)}/>
+                    {
+                        dataList.map((data, i)=>{
+                            return <Tab label={data.networkInfo.name} {...a11yProps(i)}/>
+                        })
+                    }
                 </Tabs>
-
-                <TabPanel value={tabValue} index={0} opened={!pageContext?.isMobile}/>
+                
+                {
+                    dataList.map((data, i)=>{
+                        return <TabPanel value={tabValue} index={i} data={data} opened={!pageContext?.isMobile}/>
+                    })
+                }
             </Box>
         </Box>
     )
@@ -251,7 +299,8 @@ const page: AppPage = {
     menu: {
         icon: (<Bolt/>),
         label: "Flux Networks"
-    }
+    },
+    applyEffect
 }
 
 export default page

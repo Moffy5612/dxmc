@@ -39,10 +39,9 @@ function getComparator<Key extends keyof any>(
 }
 
 interface HeadCell {
-  disablePadding: boolean;
   id: any;
   label: string;
-  numeric: boolean;
+  key: string;
 }
 
 interface EnhancedTableProps {
@@ -69,8 +68,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         {props.headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -176,42 +173,21 @@ export default function SortableTable({heads, rows}:{heads: HeadCell[], rows: an
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {visibleRows.map((row, _index) => {
                 const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
                     onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    {heads.map(head=>{
+                      return <TableCell align="right">{row[head.key]}</TableCell>
+                    })}
                   </TableRow>
                 );
               })}
