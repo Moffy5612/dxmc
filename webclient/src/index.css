@@ -1,3 +1,15 @@
+:root[theme="dark"]{
+  --color:#cacaca;
+  --bg-tab:#3d3d3d;
+  --bg-tab-content: #242424;
+}
+
+:root[theme="light"]{
+  --color:#242424;
+  --bg-tab:#cacaca;
+  --bg-tab-content: #ededed;
+}
+
 :root {
   font-family: 'Noto Sans JP', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,6 +25,8 @@
 }
 
 body {
+  background-color: var(--bg-tab-content);
+  color: var(--color);
   margin: 0;
   display: flex;
   width: 100%;

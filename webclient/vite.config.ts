@@ -4,13 +4,6 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "@/styles/global.scss";`
-      }
-    }
-  },
   build: {
     outDir: '../public',
     assetsDir: 'assets',

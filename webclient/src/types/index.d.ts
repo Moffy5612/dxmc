@@ -1,14 +1,20 @@
-import { Dispatch, SetStateAction } from "react";
+import { Component, Dispatch, SetStateAction } from "react";
 
 export type ReactState<T> = [T, Dispatch<SetStateAction<T>>]
 
-export type AppPage = {
+export type AppContext = {
     page: number,
     setPage: Dispatch<SetStateAction<number>>,
-    isMobile: boolean
+    isMobile: boolean,
+    isAuthMode: boolean
 }
 
-export type AppEffect={
+export type AppPage={
     id: number,
-    applyEffect: (ws:WebSocket, data:any)=>void 
+    page:()=>JSX.Element,
+    menu:{
+        icon:JSX.Element,
+        label:string
+    },
+    applyEffect?: (ws:WebSocket, data:any)=>void 
 }
