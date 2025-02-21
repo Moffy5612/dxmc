@@ -1,5 +1,5 @@
 import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from "@mui/material";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { AppContext, AppPage } from "./types";
 import { Menu } from "@mui/icons-material";
 import Authorizer from "./components/Authorizer";
