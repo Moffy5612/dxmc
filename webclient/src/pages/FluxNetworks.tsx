@@ -2,7 +2,7 @@ import { Bolt, ExpandMore } from "@mui/icons-material"
 import { AppPage, ReactState } from "../types"
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Modal, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tabs, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { usePageContext } from "../App"
+import { addApplyEffect, usePageContext } from "../App"
 import '@/styles/Page.scss'
 import SortableTable from "../components/SortableTable"
 import {Line} from 'react-chartjs-2'
@@ -89,7 +89,7 @@ const TabPanel = (props: TabPanelProps) => {
                             </TableHead>
                             <TableBody>
                                 <TableRow>
-                                    <TableCell component="th" scope="row">{props.data.networkInfo.Name}</TableCell>
+                                    <TableCell scope="row">{props.data.networkInfo.name}</TableCell>
                                     <TableCell align="right">{props.data.networkInfo.securityLevel}</TableCell>
                                     <TableCell align="right">{props.data.networkInfo.owner}</TableCell>
                                 </TableRow>
@@ -154,7 +154,7 @@ const TabPanel = (props: TabPanelProps) => {
                         id:0,
                         label: "Member Name",
                         key: "name"
-                    }]} rows={props.data.members.map((member:any, i: number)=>{
+                    }]} rows={props.data.networkInfo.members.map((member:any, i: number)=>{
                         return {
                             id: i,
                             name: member
@@ -204,7 +204,7 @@ const TabPanel = (props: TabPanelProps) => {
                             </tr>
                             <tr>
                                 <td><Typography>Flux Points:</Typography></td>
-                                <td><Typography>x{props.data.statistics.fluxPoint}</Typography></td>
+                                <td><Typography>x{props.data.statistics.fluxPointCount}</Typography></td>
                                 <td></td>
                             </tr>
                         </tbody>
@@ -227,7 +227,7 @@ const TabPanel = (props: TabPanelProps) => {
     };
   }
 
-let applyEffect = undefined
+
 
 const FluxNetworksPage = () => {
 
@@ -237,7 +237,7 @@ const FluxNetworksPage = () => {
     const[dataList, setDataList]:ReactState<any[]> = useState([] as any[])
 
     useEffect(()=>{
-        applyEffect = (ws: WebSocket, data: any) => {
+        addApplyEffect(pageId, (ws: WebSocket, data: any) => {
             if(!socket){
                 setSocket(ws)
             }
@@ -255,8 +255,9 @@ const FluxNetworksPage = () => {
             if(addFlg){
                 dataListCopy.push(data)
             }
+            console.log(data.connections)
             setDataList(dataListCopy)
-        }
+        })
     },[])
 
     const [tabValue, setTabValue] = useState(0);
@@ -299,8 +300,7 @@ const page: AppPage = {
     menu: {
         icon: (<Bolt/>),
         label: "Flux Networks"
-    },
-    applyEffect
+    }
 }
 
 export default page

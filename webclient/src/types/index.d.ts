@@ -9,6 +9,8 @@ export type AppContext = {
     isAuthMode: boolean
 }
 
+export type AppEffect=(ws:WebSocket, data:any)=>void 
+
 export type AppPage={
     id: number,
     page:()=>JSX.Element,
@@ -16,5 +18,5 @@ export type AppPage={
         icon:JSX.Element,
         label:string
     },
-    applyEffect?: (ws:WebSocket, data:any)=>void 
+    applyEffect?: AppEffect
 }

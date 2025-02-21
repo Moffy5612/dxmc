@@ -1,6 +1,6 @@
 import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from "@mui/material";
 import { createContext, useContext, useState, useEffect } from "react";
-import { AppContext, AppPage } from "./types";
+import { AppContext, AppEffect, AppPage } from "./types";
 import { Menu } from "@mui/icons-material";
 import Authorizer from "./components/Authorizer";
 import Home from "./pages/Home";
@@ -15,6 +15,14 @@ const Pages: AppPage[] = [
   Home,
   FluxNetworks
 ]
+
+export const addApplyEffect = (id: number, effect:AppEffect) => {
+  Pages.forEach(page=>{
+    if(page.id===id){
+      page.applyEffect=effect
+    }
+  })
+}
 
 const App = () => {
   const [isDark, setDark] = useState(false);
@@ -32,7 +40,8 @@ const App = () => {
     setDark(Boolean(localStorage.getItem("darkmode")))
     let s =new WebSocket("ws://"+location.hostname+":56122")
     s.onmessage=(ev)=>{
-      let data = JSON.parse(ev.data)  
+      let data = JSON.parse(ev.data) 
+      
       for(let page of Pages){
           if(page.id === data.id && page.applyEffect){
             page.applyEffect(s, data.data)
