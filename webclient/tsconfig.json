@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../public/pwd.ts"],
+  "include": ["src", "../public/pwd.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -9,7 +9,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "express": "^4.21.2",
     "ts-node": "^10.9.2",
+    "ws": "^8.18.1",
     "yarn": "^1.22.22"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4"
   }
 }

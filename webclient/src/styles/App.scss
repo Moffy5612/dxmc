@@ -17,6 +17,12 @@
     height: 100%;
   }
 
+  .MuiFormControl-root{
+    label{
+      color: var(--color);
+    }
+  }
+
   .filter{
     background-color: var(--bg-tab-content);
     color: var(--color);

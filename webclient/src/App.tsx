@@ -1,9 +1,10 @@
 import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from "@mui/material";
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { AppContext, AppPage } from "./types";
 import { Menu } from "@mui/icons-material";
 import Authorizer from "./components/Authorizer";
 import Home from "./pages/Home";
+import FluxNetworks from "./pages/FluxNetworks";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 
 import "@/styles/App.scss"
@@ -12,6 +13,7 @@ const PageContext = createContext<AppContext | undefined>(undefined)
 
 const Pages: AppPage[] = [
   Home,
+  FluxNetworks
 ]
 
 const App = () => {
@@ -53,12 +55,16 @@ const App = () => {
   },[isDark])
   
   const DrawerList = () => {
+    const handleClick = (page: AppPage) => {
+      setPageId(page.id)
+    }
+
     const listItem:JSX.Element[] = []
     for(const page of Pages){
       if(filterText === "" || page.menu.label.toLowerCase().includes(filterText.toLowerCase())){
         listItem.push((
           <ListItem key={page.menu.label} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={()=>handleClick(page)}>
               <ListItemIcon>
                 {page.menu.icon}
               </ListItemIcon>
@@ -125,7 +131,7 @@ const App = () => {
         </Box>
         
         <Box component="main" sx={{ p: 3 }}>
-          {Page()}
+          <Page/>
         </Box>
       </span>
     </PageContext.Provider>

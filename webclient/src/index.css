@@ -2,12 +2,14 @@
   --color:#cacaca;
   --bg-tab:#3d3d3d;
   --bg-tab-content: #242424;
+  --bg-button: #1c1c1c;
 }
 
 :root[theme="light"]{
   --color:#242424;
   --bg-tab:#cacaca;
   --bg-tab-content: #ededed;
+  --bg-button: #d6d6d6;
 }
 
 :root {

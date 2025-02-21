@@ -1,7 +1,8 @@
 import { Button, TextField, Typography } from "@mui/material"
-import { Dispatch, SetStateAction, useState } from "react"
-import { AUTH_PASSWORD } from "../../../public/pwd"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { Check } from "@mui/icons-material"
+
+declare const AUTH_PASSWORD : string
 
 type AuthModeState = {
     isAuth: boolean,
@@ -17,9 +18,19 @@ const Authorizer = ({isAuth, setAuth}: AuthModeState) => {
     }
 
     const confirmPassword = () => {
+        console.log(AUTH_PASSWORD)
         setAuth(password === AUTH_PASSWORD)
         setCanInput(false)
     }
+
+    useEffect(()=>{
+        const param = new URLSearchParams(location.search)
+        if(param.has("password")){
+            const paramPass = param.get("password")
+            setPassword(paramPass ? paramPass : '')
+            confirmPassword()
+        }
+    })
 
     return(
     <>

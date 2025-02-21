@@ -1,0 +1,41 @@
+.MuiBox-root{
+    padding-top: 0 !important;
+}
+
+.MuiAccordion-root,.MuiPaper-root{
+    background-color: var(--bg-tab-content) !important;
+    color: var(--color) !important;
+    box-shadow: none !important;
+
+    .MuiAccordionSummary-content, h2{
+        margin: 0;
+    }
+
+    .MuiAccordionDetails-root{
+        background-color: var(--bg-tab-content) !important; 
+    }
+
+    th, td, p, div, span, svg{
+        color: var(--color) !important;
+    }
+  }
+
+.MuiButtonBase-root:not(.Mui-selected){
+    color: var(--color) !important;
+}
+
+.button{
+    background-color: var(--bg-button) !important;
+}
+
+.modal-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    background-color: var(--bg-tab-content);
+    border: 2px solid #000;
+    box-shadow: 24px;
+    padding: 5px;
+}
