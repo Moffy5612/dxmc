@@ -2,7 +2,7 @@
     padding-top: 0 !important;
 }
 
-.MuiAccordion-root,.MuiPaper-root{
+.MuiAccordion-root, .MuiPaper-root{
     background-color: var(--bg-tab-content) !important;
     color: var(--color) !important;
     box-shadow: none !important;
@@ -15,7 +15,7 @@
         background-color: var(--bg-tab-content) !important; 
     }
 
-    th, td, p, div, span, svg{
+    th, td, p, div:not(.MuiAvatar-root), span, svg{
         color: var(--color) !important;
     }
   }

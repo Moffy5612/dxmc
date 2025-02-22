@@ -275,6 +275,10 @@ const FluxNetworksPage = () => {
             <header>
                 <h1>Flux Networks</h1>
             </header>
+            {
+                dataList.length < 1 && 
+                <h4><i>No Network...</i></h4>
+            }
             <Box sx={{ flexGrow: 1, display: pageContext?.isMobile ? 'block':'flex'}}>
                 <Tabs orientation={pageContext?.isMobile ? "horizontal":"vertical"} value={tabValue} onChange={handleTabChange}>
                     {

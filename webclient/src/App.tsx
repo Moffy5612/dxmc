@@ -1,6 +1,6 @@
 import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from "@mui/material";
 import { createContext, useContext, useState, useEffect } from "react";
-import { AppContext, AppEffect, AppPage } from "./types";
+import { AppContext, AppEffect, AppPage, ReactState } from "./types";
 import { Menu } from "@mui/icons-material";
 import Authorizer from "./components/Authorizer";
 import Home from "./pages/Home";
@@ -8,6 +8,7 @@ import FluxNetworks from "./pages/FluxNetworks";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 
 import "@/styles/App.scss"
+import { User } from "firebase/auth";
 
 const PageContext = createContext<AppContext | undefined>(undefined)
 
@@ -28,9 +29,11 @@ const App = () => {
   const [isDark, setDark] = useState(false);
   const [isMobile, setMobile] = useState(false);
   const [pageId, setPageId] = useState(0)
-  const [isAuthMode, setAuthMode] = useState(false)
+  const [user, setUser]:ReactState<User | undefined> = useState()
+  const [roles, setRoles] = useState([] as string[])
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filterText, setFilterText] = useState("")
+  
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setDrawerOpen(newOpen);
@@ -106,7 +109,7 @@ const App = () => {
   }
 
   return (
-    <PageContext.Provider value={{ page: pageId, setPage: setPageId, isMobile, isAuthMode}}>
+    <PageContext.Provider value={{ page: pageId, setPage: setPageId, isMobile, roles, user}}>
       <span>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static" component="nav">
@@ -125,7 +128,7 @@ const App = () => {
                 DXMC
               </Typography>
                 <ThemeSwitcher isDark={isDark} setDark={setDark}/>
-                <Authorizer isAuth={isAuthMode} setAuth={setAuthMode}/>
+                <Authorizer user={user} roles={roles} setUser={setUser} setRoles={setRoles}/>
             </Toolbar>
           </AppBar>
           <nav>
