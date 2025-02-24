@@ -4,11 +4,11 @@ local data = require("dataManager")
 
 local relayComputerId = 1
 
-function send(table):
+function send(table)
     rednet.send(relayComputerId, textutils.serialiseJSON(table), "master")
 end
 
-function getItemList():
+function getItemList()
     return meBridge.meBridge.listItems()
 end
 

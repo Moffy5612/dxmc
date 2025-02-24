@@ -297,7 +297,7 @@ const FluxNetworksPage = () => {
     )
 }
 
-const page: AppPage = {
+const FluxNetworks: AppPage = {
     id: pageId,
     page: FluxNetworksPage,
     menu: {
@@ -306,4 +306,4 @@ const page: AppPage = {
     }
 }
 
-export default page
+export default FluxNetworks

@@ -2,7 +2,7 @@ local data = require("dataManager")
 
 rednet.open("top")
 
-multishell.launch({data = data}, "/monitor.lua")
+--multishell.launch({data = data}, "/monitor.lua")
 multishell.launch({data = data}, "/command.lua")
 multishell.launch({},"/system.lua")
 

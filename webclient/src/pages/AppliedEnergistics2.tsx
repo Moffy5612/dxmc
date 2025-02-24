@@ -4,6 +4,7 @@ import { AppPage, ReactState } from '../types'
 import { Box } from '@mui/material'
 import { AE2Data } from '../types/appliedEnergistics2'
 import { addApplyEffect } from '../App'
+import { Public } from '@mui/icons-material'
 
 const pageId = 3
 
@@ -15,28 +16,38 @@ const AppliedEnergistics2Page = () => {
         addApplyEffect(pageId, (ws: WebSocket, data: any) => {
             if(!socket){
                 setSocket(ws)
+                ws.send(JSON.stringify({
+                    id: pageId,
+                    data: "getAll"
+                }))
             }
 
-            let addFlg = true
-            const dataCopy = JSON.parse(JSON.stringify(data))
+            const dataCopy = JSON.parse(JSON.stringify(data)) as AE2Data
             
-            if()
+            if(data.items){
+                dataCopy.items = data.items
+            }
             setData(data)
         })
     },[])
 
     return(
         <Box className={"page"}>
-
+            <header>
+                <h1>Applied Energistics 2</h1>
+            </header>
+            <div>{data.items ? JSON.stringify(data.items[0]) : ''}</div>
         </Box>
     )
 }
 
-const page: AppPage = {
+const AppliedEnergistics2: AppPage = {
     id: pageId,
     page: AppliedEnergistics2Page,
     menu: {
-        icon:(),
+        icon:(<Public/>),
         label: "Applied Energistics 2"
     }
 }
+
+export default AppliedEnergistics2

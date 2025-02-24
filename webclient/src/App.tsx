@@ -9,12 +9,14 @@ import ThemeSwitcher from "./components/ThemeSwitcher";
 
 import "@/styles/App.scss"
 import { User } from "firebase/auth";
+import AppliedEnergistics2 from "./pages/AppliedEnergistics2";
 
 const PageContext = createContext<AppContext | undefined>(undefined)
 
 const Pages: AppPage[] = [
   Home,
-  FluxNetworks
+  FluxNetworks,
+  AppliedEnergistics2
 ]
 
 export const addApplyEffect = (id: number, effect:AppEffect) => {
