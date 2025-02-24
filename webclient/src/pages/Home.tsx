@@ -9,7 +9,7 @@ const HomePage = () => {
     return (
     <Box className={"page"}>
         <header>
-            <h1>Web Page of DXMC</h1>
+            <h1>Web Page for DXMC</h1>
         </header>
 
         <h2>What is DXMC?</h2>
@@ -19,7 +19,7 @@ const HomePage = () => {
 
         <h2>Usage</h2>
         <p>Use the menu drawer to select the information you want to view.</p>
-        <p>Click the AUTHORIZE button in the top-right corner and enter the password to gain access to system commands.</p>
+        <p>Click the LOGIN button in the top-right corner and enter the password to gain access to system commands.</p>
     </Box>
     )
 }

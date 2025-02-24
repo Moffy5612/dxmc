@@ -7,6 +7,7 @@ import '@/styles/Page.scss'
 import SortableTable from "../components/SortableTable"
 import {Line} from 'react-chartjs-2'
 import { CategoryScale, Chart, ChartData, LinearScale, LineElement, Point, PointElement } from "chart.js"
+import { FluxNetworksData } from "../types/fluxnetworks"
 
 const pageId = 2
 
@@ -15,7 +16,7 @@ interface TabPanelProps {
     index: number;
     value: number;
     opened: boolean;
-    data: any
+    data: FluxNetworksData;
   }
 
 interface ChangeGraphProps {
@@ -56,11 +57,11 @@ const TabPanel = (props: TabPanelProps) => {
     const [isModalOpen, setModalOpen] = useState(false)
 
     const deviceHeaders = [
-        {id:0, label:"Device Name", key:"name"},
-        {id:1, label:"Device Type", key:"type"},
-        {id:2, label:"x", key:"x"},
-        {id:3, label:"y", key:"y"},
-        {id:4,label:"z", key:"z"},
+        {label:"Device Name", key:"name"},
+        {label:"Device Type", key:"type"},
+        {label:"x", key:"x"},
+        {label:"y", key:"y"},
+        {label:"z", key:"z"},
     ]
 
     return (
@@ -122,22 +123,22 @@ const TabPanel = (props: TabPanelProps) => {
                         <tbody>
                             <tr>
                                 <td><Typography>Total Energy:</Typography></td>
-                                <td><Typography>{props.data.statistics.totalEnergy}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.totalEnergy}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Total Buffer:</Typography></td>
-                                <td><Typography>{props.data.statistics.totalBuffer}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.totalBuffer}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Energy Input:</Typography></td>
-                                <td><Typography>{props.data.statistics.energyInput}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.energyInput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Energy Output:</Typography></td>
-                                <td><Typography>{props.data.statistics.energyOutput}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.energyOutput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                         </tbody>
@@ -151,7 +152,6 @@ const TabPanel = (props: TabPanelProps) => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <SortableTable heads={[{
-                        id:0,
                         label: "Member Name",
                         key: "name"
                     }]} rows={props.data.networkInfo.members.map((member:any, i: number)=>{
@@ -169,42 +169,42 @@ const TabPanel = (props: TabPanelProps) => {
                         <tbody>
                             <tr>
                                 <td><Typography>Total Energy:</Typography></td>
-                                <td><Typography>{props.data.statistics.totalEnergy}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.totalEnergy}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Total Buffer:</Typography></td>
-                                <td><Typography>{props.data.statistics.totalBuffer}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.totalBuffer}</Typography></td>
                                 <td><Typography>RF</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Energy Input:</Typography></td>
-                                <td><Typography>{props.data.statistics.energyInput}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.energyInput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                             <tr style={{marginBottom: 20}}>
                                 <td><Typography>Energy Output:</Typography></td>
-                                <td><Typography>{props.data.statistics.energyOutput}</Typography></td>
+                                <td><Typography align="right">{props.data.statistics.energyOutput}</Typography></td>
                                 <td><Typography>RF/t</Typography></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Storages:</Typography></td>
-                                <td><Typography>x{props.data.statistics.fluxStorageCount}</Typography></td>
+                                <td><Typography align="right">x{props.data.statistics.fluxStorageCount}</Typography></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Controllers:</Typography></td>
-                                <td><Typography>x{props.data.statistics.fluxControllerCount}</Typography></td>
+                                <td><Typography align="right">x{props.data.statistics.fluxControllerCount}</Typography></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Plugs:</Typography></td>
-                                <td><Typography>x{props.data.statistics.fluxPlugCount}</Typography></td>
+                                <td><Typography align="right">x{props.data.statistics.fluxPlugCount}</Typography></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><Typography>Flux Points:</Typography></td>
-                                <td><Typography>x{props.data.statistics.fluxPointCount}</Typography></td>
+                                <td><Typography align="right">x{props.data.statistics.fluxPointCount}</Typography></td>
                                 <td></td>
                             </tr>
                         </tbody>

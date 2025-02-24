@@ -9,7 +9,6 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
 import '@/styles/Page.scss'
 
@@ -39,16 +38,13 @@ function getComparator<Key extends keyof any>(
 }
 
 interface HeadCell {
-  id: any;
   label: string;
   key: string;
 }
 
 interface EnhancedTableProps {
   headCells: HeadCell[]
-  numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: any) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
@@ -67,16 +63,16 @@ function EnhancedTableHead(props: EnhancedTableProps) {
       <TableRow>
         {props.headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
-            sortDirection={orderBy === headCell.id ? order : false}
+            key={headCell.key}
+            sortDirection={orderBy === headCell.key ? order : false}
           >
             <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+              active={orderBy === headCell.key}
+              direction={orderBy === headCell.key ? order : 'asc'}
+              onClick={createSortHandler(headCell.key)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
+              {orderBy === headCell.key ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
@@ -91,7 +87,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 export default function SortableTable({heads, rows}:{heads: HeadCell[], rows: any[]}) {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<any>('');
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, _setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -103,34 +98,6 @@ export default function SortableTable({heads, rows}:{heads: HeadCell[], rows: an
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (_event: React.MouseEvent<unknown>, id: number) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (_event: unknown, newPage: number) => {
@@ -165,28 +132,23 @@ export default function SortableTable({heads, rows}:{heads: HeadCell[], rows: an
           >
             <EnhancedTableHead
               headCells={heads}
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
             <TableBody>
               {visibleRows.map((row, _index) => {
-                const isItemSelected = selected.includes(row.id);
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
                     tabIndex={-1}
                     key={row.id}
-                    selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
-                    {heads.map(head=>{
-                      return <TableCell align="right">{row[head.key]}</TableCell>
+                    {heads.map((head, i)=>{
+                      return <TableCell key={i} align="right">{row[head.key]}</TableCell>
                     })}
                   </TableRow>
                 );
