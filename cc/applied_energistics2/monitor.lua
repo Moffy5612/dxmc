@@ -8,6 +8,8 @@ function to_serial_list(tbl)
     for _, v in pairs(tbl) do
         list [#list + 1] = textutils.serialiseJSON(tbl)
     end
+
+    return list
 end
 
 while true do
