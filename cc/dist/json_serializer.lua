@@ -39,26 +39,6 @@ function stringify(tbl)
 end
 
 function parse(json)
-    local function parse_value(str, index)
-        local char = str:sub(index, index)
-
-        if char == "{" then
-            return parse_object(str, index)
-        elseif char == "[" then
-            return parse_array(str, index)
-        elseif char == '"' then
-            return parse_string(str, index)
-        elseif char:match("[0-9%-]") then
-            return parse_number(str, index)
-        elseif str:sub(index, index + 3) == "true" then
-            return true, index + 4
-        elseif str:sub(index, index + 4) == "false" then
-            return false, index + 5
-        elseif str:sub(index, index + 3) == "null" then
-            return nil, index + 4
-        end
-        error("Invalid JSON at position " .. index)
-    end
 
     local function parse_string(str, index)
         local closing = index + 1
@@ -102,6 +82,27 @@ function parse(json)
             end
         end
         return obj, index + 1
+    end
+
+    local function parse_value(str, index)
+        local char = str:sub(index, index)
+
+        if char == "{" then
+            return parse_object(str, index)
+        elseif char == "[" then
+            return parse_array(str, index)
+        elseif char == '"' then
+            return parse_string(str, index)
+        elseif char:match("[0-9%-]") then
+            return parse_number(str, index)
+        elseif str:sub(index, index + 3) == "true" then
+            return true, index + 4
+        elseif str:sub(index, index + 4) == "false" then
+            return false, index + 5
+        elseif str:sub(index, index + 3) == "null" then
+            return nil, index + 4
+        end
+        error("Invalid JSON at position " .. index)
     end
 
     local result, _ = parse_value(json, 1)
