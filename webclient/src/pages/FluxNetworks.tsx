@@ -255,7 +255,6 @@ const FluxNetworksPage = () => {
             if(addFlg){
                 dataListCopy.push(data)
             }
-            console.log(data.connections)
             setDataList(dataListCopy)
         })
     },[])
