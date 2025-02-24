@@ -9,5 +9,5 @@ export type AE2Item = {
 }
 
 export type AE2Data = {
-    items: AE2Item[]
+    items?: AE2Item[]
 }

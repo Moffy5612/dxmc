@@ -234,7 +234,7 @@ const FluxNetworksPage = () => {
     const pageContext = usePageContext()
 
     const[socket, setSocket]:ReactState<WebSocket | undefined> = useState()
-    const[dataList, setDataList]:ReactState<any[]> = useState([] as any[])
+    const[dataList, setDataList]:ReactState<FluxNetworksData[]> = useState([] as FluxNetworksData[])
 
     useEffect(()=>{
         addApplyEffect(pageId, (ws: WebSocket, data: any) => {
