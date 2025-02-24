@@ -1,17 +1,19 @@
+local serializer = require("json_serializer")
+
 function get_value(key)
     local input = io.input("/data.json")
-    local tab = textutils.unserialiseJSON(input:read("*a"))
+    local tab = serializer.parse(input:read("*a"))
     io.close(input)
     return tab[key]
 end
 
 function set_value(key, val)
     local input = io.input("/data.json")
-    local tab = textutils.unserialiseJSON(input:read("*a"))
+    local tab = serializer.parse(input:read("*a"))
     io.close(input)
     tab[key] = val
     local output = io.output("/data.json")
-    output:write(textutils.serialiseJSON(tab))
+    output:write(serializer.stringify(tab))
     io.close(output)
 end
 
@@ -25,7 +27,7 @@ end
 
 function get_all()
     local input = io.input("/data.json")
-    local tab = textutils.unserialiseJSON(input:read("*a"))
+    local tab = serializer.parse(input:read("*a"))
     io.close(input)
 
     return tab
