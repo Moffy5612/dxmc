@@ -1,17 +1,17 @@
 function get_value(key)
     local input = io.input("/data.json")
-    local tab = ccexUtils.serialiseJSON(input:read("*a"))
+    local tab = ccexUtils.serializeJSON(input:read("*a"))
     io.close(input)
     return tab[key]
 end
 
 function set_value(key, val)
     local input = io.input("/data.json")
-    local tab = ccexUtils.serialiseJSON(input:read("*a"))
+    local tab = ccexUtils.serializeJSON(input:read("*a"))
     io.close(input)
     tab[key] = val
     local output = io.output("/data.json")
-    output:write(ccexUtils.deserialiseJSON(tab))
+    output:write(ccexUtils.deserializeJSON(tab))
     io.close(output)
 end
 
@@ -25,7 +25,7 @@ end
 
 function get_all()
     local input = io.input("/data.json")
-    local tab = ccexUtils.serialiseJSON(input:read("*a"))
+    local tab = ccexUtils.serializeJSON(input:read("*a"))
     io.close(input)
 
     return tab
