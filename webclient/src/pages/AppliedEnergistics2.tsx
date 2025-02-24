@@ -16,10 +16,6 @@ const AppliedEnergistics2Page = () => {
         addApplyEffect(pageId, (ws: WebSocket, data: any) => {
             if(!socket){
                 setSocket(ws)
-                ws.send(JSON.stringify({
-                    id: pageId,
-                    data: "getAll"
-                }))
             }
 
             const dataCopy = JSON.parse(JSON.stringify(data)) as AE2Data
